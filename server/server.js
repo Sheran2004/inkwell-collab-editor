@@ -26,11 +26,24 @@ app.use((req, res, next) => {
   res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
   res.setHeader("X-Frame-Options", "DENY");
 
-  if (allowedOrigin && req.headers.origin === allowedOrigin) {
-    res.setHeader("Access-Control-Allow-Origin", allowedOrigin);
-    res.setHeader("Access-Control-Allow-Credentials", "true");
-    res.setHeader("Vary", "Origin");
-  }
+  const requestOrigin = req.headers.origin;
+
+const normalizedAllowedOrigin = allowedOrigin
+  ? allowedOrigin.replace(/\/+$/, "")
+  : "";
+
+const normalizedRequestOrigin = requestOrigin
+  ? requestOrigin.replace(/\/+$/, "")
+  : "";
+
+if (
+  normalizedAllowedOrigin &&
+  normalizedRequestOrigin === normalizedAllowedOrigin
+) {
+  res.setHeader("Access-Control-Allow-Origin", normalizedAllowedOrigin);
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  res.setHeader("Vary", "Origin");
+}
 
   if (req.method === "OPTIONS") {
     res.setHeader(
