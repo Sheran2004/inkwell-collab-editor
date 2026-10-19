@@ -6,6 +6,11 @@ import "quill/dist/quill.snow.css";
 
 const SAVE_INTERVAL_MS = 2000;
 
+const API_URL = (
+  import.meta.env.VITE_API_URL ||
+  "https://inkwell-collab-editor-api-fsfx.onrender.com"
+).replace(/\/+$/, "");
+
 const TOOLBAR_OPTIONS = [
   [{ header: [1, 2, 3, false] }],
   ["bold", "italic", "underline", "strike"],
@@ -36,16 +41,11 @@ export default function Editor() {
 
   // Create one socket connection for this editor.
   useEffect(() => {
-    const s = io({
+    const s = io(API_URL, {
       withCredentials: true,
       reconnection: true,
+      transports: ["websocket", "polling"],
     });
-
-    setSocket(s);
-
-    return () => {
-      s.disconnect();
-    };
   }, []);
 
   // Create the Quill editor once its wrapper is mounted.
@@ -226,9 +226,7 @@ export default function Editor() {
   setShareMessage("Generating share link...");
 
   try {
-    const response = await fetch(
-      `/api/documents/${documentId}/share`,
-      {
+    const response = await fetch(`${API_URL}/api/documents/${documentId}/share`, {
         method: "POST",
         credentials: "include",
       }
