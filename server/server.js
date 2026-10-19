@@ -150,7 +150,7 @@ function setSession(res, user) {
 
   res.setHeader(
     "Set-Cookie",
-    `${COOKIE}=${encodeURIComponent(token)}; Path=/; HttpOnly; SameSite=Lax; Max-Age=604800${
+    `${COOKIE}=${encodeURIComponent(token)}; Path=/; HttpOnly; SameSite=None; Max-Age=604800${
       production ? "; Secure" : ""
     }`
   );
@@ -159,7 +159,7 @@ function setSession(res, user) {
 function clearSession(res) {
   res.setHeader(
     "Set-Cookie",
-    `${COOKIE}=; Path=/; HttpOnly; SameSite=Lax; Max-Age=0${
+    `${COOKIE}=; Path=/; HttpOnly; SameSite=None; Max-Age=0${
       production ? "; Secure" : ""
     }`
   );
