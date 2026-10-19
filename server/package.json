@@ -1,0 +1,19 @@
+{
+  "name": "inkwell-server",
+  "version": "1.0.0",
+  "description": "Backend for Inkwell \u2014 real-time collaborative document editor",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.6.1",
+    "express": "^4.19.2",
+    "pg": "^8.22.0",
+    "socket.io": "^4.7.5"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
