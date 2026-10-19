@@ -1,15 +1,24 @@
 services:
   - type: web
-    name: inkwell-collab-editor
+    name: inkwell-collab-editor-api
     runtime: node
     plan: free
-    buildCommand: npm install --prefix server && npm install --prefix client && npm run build --prefix client
+
+    buildCommand: npm install --prefix server
+
     startCommand: npm start --prefix server
+
     healthCheckPath: /api/health
+
     envVars:
       - key: NODE_ENV
         value: production
+
       - key: DATABASE_URL
         sync: false
+
       - key: AUTH_SECRET
         generateValue: true
+
+      - key: CLIENT_ORIGIN
+        sync: false
